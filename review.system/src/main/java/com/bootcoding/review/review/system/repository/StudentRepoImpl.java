@@ -1,21 +1,53 @@
 package com.bootcoding.review.review.system.repository;
 
 import com.bootcoding.review.review.system.model.Student;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Component
 public class StudentRepoImpl implements StudentRepo{
+    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
+
+    // Constructor Injection
+    public StudentRepoImpl(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void save(Student student) {
+        try {
+            String query = "INSERT into student(name)" + " values (?)";
+            jdbcTemplate.update(query, student.getName());
+
+            String selectStudentIdQuery = "SELECT id FROM student WHERE name = ?";
+            int studentId = jdbcTemplate.queryForObject(selectStudentIdQuery, int.class, student.getName());
+
+            String query2 = "INSERT INTO course(name,student_id)" + " values (?,?)";
+            for(Course course: student.getCourses()){
+                jdbcTemplate.update(query2, course.getName(),studentId);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     private Map<Integer,Student> studentMap = new HashMap<>();
 
     @Override
     public boolean checkStudent(Student student) {
 
         return false;
+    }
+
+    @Override
+    public void save(Student student) {
+
     }
 
     @Override
