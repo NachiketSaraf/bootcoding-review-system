@@ -14,13 +14,20 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+
     @PostMapping("/student")
-    public String insertStudent(@RequestBody Student student) {
-        if(studentService.studentExist()){
-            return "Student exist";
-        }
-        return studentService.insertStudent(student);
+    public String createStudent(@RequestBody Student student) {
+        return studentService.createStudent(student);
     }
+
+
+//    @PostMapping("/student")
+//    public String insertStudent(@RequestBody Student student) {
+//        if(studentService.studentExist()){
+//            return "Student exist";
+//        }
+//        return studentService.insertStudent(student);
+//    }
 
     @GetMapping("/student/{rollNumber}")
     public Student getStudent(@PathVariable int rollNumber) {
