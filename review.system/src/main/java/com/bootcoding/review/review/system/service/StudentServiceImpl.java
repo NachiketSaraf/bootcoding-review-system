@@ -46,4 +46,10 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getStudentsByBranch(String branch) {
         return studentRepo.getStudentsByBranch(branch);
     }
+
+    @Override
+    public String createStudent(Student student) {
+        studentRepo.save(student);
+        return "Successfully created student!";
+    }
 }
