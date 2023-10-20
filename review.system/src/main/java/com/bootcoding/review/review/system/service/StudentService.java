@@ -18,4 +18,6 @@ public interface StudentService {
     String deleteStudent(int studentId);
 
     List<Student> getStudentsByBranch(String branch);
+
+    String createStudent(Student student);
 }
