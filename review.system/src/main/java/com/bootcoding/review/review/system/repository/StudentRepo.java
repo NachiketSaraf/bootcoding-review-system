@@ -18,4 +18,6 @@ public interface StudentRepo {
     List<Student> getStudentsByBranch(String branch);
 
     boolean checkStudent(Student student);
+
+    void save(Student student);
 }
